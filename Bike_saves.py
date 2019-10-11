@@ -251,7 +251,7 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'No':
                                             print("Good")
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)                                            
+                                            stopper(user_name, last_recorded_year, m, e)                                            
         #If month iterated is neither the last recorded month nor the current month  
                                 if m != last_recorded_month and m != current_month:
                                     for e in value1[m-1][:]:
@@ -266,7 +266,7 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'No':
                                             print("Good")
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)                                    
+                                            stopper(user_name, last_recorded_year, m, e)                                    
     #Iterate between the first day of the year and the current date                        
                         for m in months_between_jan_current:
                             if key1 == str(current_year):
@@ -284,7 +284,7 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'No':
                                             print("Good")
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)                                                    
+                                            stopper(user_name, last_recorded_year, m, e)                                                    
         #If month iterated is the same as the current month, but the last recorded month is the past month 
                                 if m == current_month and last_recorded_month != current_month:
                                     for e in value1[current_month-1][:current_day]:
@@ -308,9 +308,9 @@ def update_dates_cycled(user_name):
                                                 print("Good")
             #Check if date before is on the list of dates cycled, if not add it with value 0
                                         if daily_check == "Not yet":
-                                            not_yet(records_dictionary, current_year, current_month, current_day, user_name)
+                                            not_yet(current_year, current_month, current_day, user_name)
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)
+                                            stopper(user_name, last_recorded_year, m, e)
             #Return to start screen
                                     user_choice_1 = input("{}, your records are up to date, would you like to keep working on your name, work under any other name or exit the program (Keep name/New name/Exit)?: ".format(user_name))
                                     keepname_newname_exit(user_name, user_choice_1)    
@@ -331,7 +331,7 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'Yes':
                                             if m <= 9:
                                                 dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), price_go, price_return)
-                                            else:
+                                            if m > 9:
                                                 dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), price_go, price_return)
                                             add_new_year(user_name, m)
                                             last_date_empty_deleter(user_name)    
@@ -347,9 +347,9 @@ def update_dates_cycled(user_name):
                                                 print("Good")
             #Check if date before is on the list of dates cycled, if not add it with value 0
                                         if daily_check == "Not yet":
-                                            not_yet(records_dictionary, current_year, current_month, current_day, user_name)
+                                            not_yet(current_year, current_month, current_day, user_name)
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)
+                                            stopper(user_name, last_recorded_year, m, e)
             #Return to start screen
                                     user_choice_1 = input("{}, your records are up to date, would you like to keep working on your name, work under any other name or exit the program (Keep name/New name/Exit)?: ".format(user_name))
                                     keepname_newname_exit(user_name, user_choice_1)
@@ -367,7 +367,7 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'No':
                                             print("Good")
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)                                            
+                                            stopper(user_name, last_recorded_year, m, e)                                            
     #If month iterated is neither the last recorded month nor the current month  
                                 if m != last_recorded_month and m != current_month:
                                     for e in value1[m-1][:]:
@@ -382,7 +382,7 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'No':
                                             print("Good")
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)
+                                            stopper(user_name, last_recorded_year, m, e)
     #If month iterated is the same as the current month, but the last recorded month is the past month 
                                 if m == current_month and last_recorded_month != current_month:
                                     for e in value1[current_month-1][:current_day]:
@@ -406,9 +406,9 @@ def update_dates_cycled(user_name):
                                                 print("Good")
             #Check if date before is on the list of dates cycled, if not add it with value 0
                                         if daily_check == "Not yet":
-                                            not_yet(records_dictionary, current_year, current_month, current_day, user_name)
+                                            not_yet(current_year, current_month, current_day, user_name)
                                         if daily_check == "Stop":
-                                            stopper(user_name, records_dictionary, last_recorded_year, m, e)
+                                            stopper(user_name, last_recorded_year, m, e)
             #Return to start screen
                                     user_choice_1 = input("{}, your records are up to date, would you like to keep working under your name, work under any other name or exit the program(Keep name/New name/Exit)?: ".format(user_name))
                                     keepname_newname_exit(user_name, user_choice_1)
@@ -907,7 +907,9 @@ def last_date_empty_deleter(user_name):
         with open("{}_records.json".format(user_name), "w+") as f:
             json.dump(records_dictionary, f, indent=4)
 
-def stopper(user_name, records_dictionary, year, month, day):
+def stopper(user_name, year, month, day):
+    with open("{}_records.json".format(user_name), "r") as f:    
+        records_dictionary = json.load(f)
 #Get the last recorded day, month and year    
     years_list = []
     months_list = []
@@ -947,12 +949,14 @@ def stopper(user_name, records_dictionary, year, month, day):
     else:
         date_to_print = datetime(year, month, int(day)) - timedelta(days= 1)
         dates_cycled_writer(user_name, str('{:02d}'.format(date_to_print.day)), str(date_to_print.month), str(date_to_print.year), 0, 0)
-        add_new_year(user_name, m)
+        add_new_year(user_name, date_to_print.month)
         print("Your data has been saved, you can update it whenever you wish")
         user_choice_1 = input("Now, would you like to keep working under your name, work under any other name or exit the program (Keep name/New name/Exit)?: ".format(user_name))
         keepname_newname_exit(user_name, user_choice_1)
 
-def not_yet(records_dictionary, current_year, current_month, current_day, user_name):
+def not_yet(current_year, current_month, current_day, user_name):
+    with open("{}_records.json".format(user_name), "r") as f:    
+        records_dictionary = json.load(f)
 #Get the last recorded day, month and year
     years_list = []
     months_list = []
@@ -990,7 +994,7 @@ def not_yet(records_dictionary, current_year, current_month, current_day, user_n
     if datetime(last_recorded_year, last_recorded_month, last_recorded_day) != datetime(current_year, current_month, current_day) - timedelta(days= 1):
         date_to_print = datetime(current_year, current_month, current_day) - timedelta(days= 1)
         dates_cycled_writer(user_name, str('{:02d}'.format(date_to_print.day)), str(date_to_print.month), str(date_to_print.year), 0, 0)
-        add_new_year(user_name, m)
+        add_new_year(user_name, date_to_print.month)
         print("I will ask you again later")
 
 def keepname_newname_exit(user_name, user_choice_1):
