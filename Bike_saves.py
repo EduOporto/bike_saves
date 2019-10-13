@@ -299,9 +299,9 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'No':
                                             if int(e) == current_day and m == current_month:
                                                 if m <= 9:
-                                                    dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), price_go, price_return)
+                                                    dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), 0, 0)
                                                 else:
-                                                    dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), price_go, price_return)
+                                                    dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), 0, 0)
                                                 add_new_year(user_name, m)
                                                 print("Good")
                                             else:
@@ -331,16 +331,16 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'Yes':
                                             if m <= 9:
                                                 dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), price_go, price_return)
-                                            if m > 9:
+                                            if m > 90:
                                                 dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), price_go, price_return)
                                             add_new_year(user_name, m)
                                             last_date_empty_deleter(user_name)    
                                         if daily_check == 'No':
                                             if int(e) == current_day and m == current_month:
                                                 if m <= 9:
-                                                    dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), price_go, price_return)
+                                                    dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), 0, 0)
                                                 else:
-                                                    dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), price_go, price_return)
+                                                    dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), 0, 0)
                                                 add_new_year(user_name, m)
                                                 print("Good")
                                             else:
@@ -397,9 +397,9 @@ def update_dates_cycled(user_name):
                                         if daily_check == 'No':
                                             if int(e) == current_day and m == current_month:
                                                 if m <= 9:
-                                                    dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), price_go, price_return)
+                                                    dates_cycled_writer(user_name, str(e), ('%02d' % m), str(last_recorded_year), 0, 0)
                                                 else:
-                                                    dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), price_go, price_return)
+                                                    dates_cycled_writer(user_name, str(e), str(m), str(last_recorded_year), 0, 0)
                                                 add_new_year(user_name, m)
                                                 print("Good")
                                             else:
@@ -473,7 +473,7 @@ def dates_cycled_writer(user_name, day, month, year, price_go, price_return):
                                                 value2[day] = price_go+price_return
 #Update total days cycled and total saved
                                                 for key3, value3 in value2.items():
-                                                    if key3 != "Total days cycled" and key3 != "Total saved":
+                                                    if key3 != "Total days cycled" and key3 != "Total saved" and value3 != 0:
                                                         total_saved = total_saved + value3
                                                         total_days_cycled = total_days_cycled + 1
                                                 value2["Total days cycled"] = total_days_cycled
